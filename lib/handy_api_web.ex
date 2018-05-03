@@ -48,7 +48,6 @@ defmodule HandyApiWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import HandyApiWeb.Gettext
     end
   end
 

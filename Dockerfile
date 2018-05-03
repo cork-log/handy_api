@@ -9,6 +9,8 @@ ADD . /app
 
 ENV PATH="/root/.mix/escripts:${PATH}"
 
+ENV MIX_ENV=docker
+
 RUN mix local.hex --force
 RUN mix deps.get
 RUN mix local.rebar --force

@@ -11,8 +11,6 @@ defmodule HandyApiWeb.SourceView do
   end
 
   def render("source.json", %{source: source}) do
-    %{id: source.id,
-      id: source.id,
-      name: source.name}
+    %{id: source.id, name: source.name}
   end
 end

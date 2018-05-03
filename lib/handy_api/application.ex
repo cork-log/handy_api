@@ -8,10 +8,14 @@ defmodule HandyApi.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the endpoint when the application starts
       supervisor(HandyApiWeb.Endpoint, []),
-      # Start your own worker by calling: HandyApi.Worker.start_link(arg1, arg2, arg3)
-      # worker(HandyApi.Worker, [arg1, arg2, arg3]),
+      supervisor(HandyApi.Grpc.Client, []),
+      {Task.Supervisor, name: HandyApi.SocketSupervisor},
+      # Supervisor.child_spec(
+      #   {Task.Supervisor, name: HandyApi.SocketSupervisor},
+      #   id: :socket_supervisor
+      # ),
+      {Task, fn -> HandyApi.TcpServer.accept(4545) end}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

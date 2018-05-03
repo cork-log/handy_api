@@ -7,6 +7,8 @@ defmodule HandyApiWeb.Router do
 
   scope "/api", HandyApiWeb do
     pipe_through :api
-    get "/source", SourceController, :index
+    get "/source/:id", SourceController, :show
+    post "/source", SourceController, :create
+    post "/source/:source_id/entry", EntryController, :insert
   end
 end

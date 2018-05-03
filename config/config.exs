@@ -19,6 +19,9 @@ config :handy_api, HandyApiWeb.Endpoint,
   pubsub: [name: HandyApi.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :handy_api,
+  grpc_server_url: "localhost:50051"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

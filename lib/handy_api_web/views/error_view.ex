@@ -5,6 +5,10 @@ defmodule HandyApiWeb.ErrorView do
     %{errors: %{detail: "Page not found"}}
   end
 
+  def render("400.json", _assigns) do
+    %{errors: %{detail: "Bad Request"}}
+  end
+
   def render("500.json", _assigns) do
     %{errors: %{detail: "Internal server error"}}
   end

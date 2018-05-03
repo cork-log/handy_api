@@ -13,6 +13,8 @@ config :handy_api, HandyApiWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
