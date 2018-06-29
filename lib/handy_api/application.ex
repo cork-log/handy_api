@@ -9,7 +9,7 @@ defmodule HandyApi.Application do
     # Define workers and child supervisors to be supervised
     children = [
       supervisor(HandyApiWeb.Endpoint, []),
-      supervisor(HandyApi.Grpc.Client, []),
+      supervisor(HandyApi.Grpc.Client, [], restart: :permanent),
       {Task.Supervisor, name: HandyApi.SocketSupervisor},
       # Supervisor.child_spec(
       #   {Task.Supervisor, name: HandyApi.SocketSupervisor},
