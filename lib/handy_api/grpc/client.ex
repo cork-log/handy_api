@@ -8,27 +8,27 @@ defmodule HandyApi.Grpc.Client do
     channel
   end
 
-  def init(args) do
-    {:ok, args}
-  end
 
   # Private Impl
   @type channel :: GRPC.Channel.t()
   def start_link() do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
+  end
+
+  def init(_args) do
     url = Application.get_env(:handy_api, :grpc_server_url)
     IO.puts("Trying to connect on: " <> url)
-    # case GRPC.Stub.connect("gateway:50051") do
-    connect(url)
+    {:ok, connect(url)}
   end
 
   def connect(url) do
     case GRPC.Stub.connect(url) do
       {:ok, channel} ->
         IO.puts("connected on " <> url)
-        GenServer.start_link(__MODULE__, channel, name: __MODULE__)
+        channel
 
       {:error, error} ->
-        IO.puts("failed connection with #{inspect(error)}, \n retrying:\n")
+        IO.puts("failed connection with #{inspect(error)}")
         :timer.sleep(1000)
         connect(url)
     end
@@ -37,5 +37,11 @@ defmodule HandyApi.Grpc.Client do
   @spec handle_call({:channel}, any, channel) :: any
   def handle_call({:channel}, _from, channel) do
     {:reply, {:ok, channel}, channel}
+  end
+  def handle_info({:gun_up,_,_}, state) do
+    {:noreply, state}
+  end
+  def handle_info({:gun_down, _, _, _, _, _}, state) do
+    {:noreply, state}
   end
 end
