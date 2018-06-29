@@ -4,9 +4,15 @@ defmodule HandyApiWeb.EntryController do
 
   action_fallback(HandyApiWeb.FallbackController)
 
-  def index(conn, _params) do
-    log_entries = nil
-    render(conn, "index.json", log_entries: log_entries)
+  def get_entries(conn, %{"source_id" => source_id} = params) do
+    {take, _} = Integer.parse(Map.get(params, "take", "50"))
+    {direction, _} = Integer.parse(Map.get(params, "direction", "0"))
+    last = Map.get(params, "last_timestamp", "")
+
+    case Entry.get_n(source_id, %{take: take, direction: direction, last_timestamp: last}) do
+      {:ok, log_entries} -> render(conn, "index.json", log_entries: log_entries)
+      {:error} -> render(conn, HandyApiWeb.ErrorView, :"400")
+    end
   end
 
   def insert(conn, %{

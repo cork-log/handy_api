@@ -15,8 +15,21 @@ defmodule HandyApi.Logging.Entry do
     struct(Entry, Map.from_struct(proto))
   end
 
+  def get_n(source_id, query) do
+    Api.call(fn channel ->
+      query = Proto.PageQuery.new(query)
+      req = Proto.EntryQuery.new(%{source_id: source_id, query: query})
+
+      case Proto.LogEntry.Stub.get_n(channel, req) do
+        {:ok, stream} -> {:ok, Enum.map(stream, fn {:ok, entry} -> entry end)}
+        {:error, _} -> {:error}
+      end
+    end)
+  end
+
   def insert(entry) do
     IO.inspect(entry)
+
     Api.call(fn channel ->
       req = Proto.NewEntry.new(Map.from_struct(entry))
       {:ok, entry} = Proto.LogEntry.Stub.insert(channel, req)

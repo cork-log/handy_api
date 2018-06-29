@@ -10,5 +10,6 @@ defmodule HandyApiWeb.Router do
     get "/source/:id", SourceController, :show
     post "/source", SourceController, :create
     post "/source/:source_id/entry", EntryController, :insert
+    get "/source/:source_id/entry", EntryController, :get_entries
   end
 end
