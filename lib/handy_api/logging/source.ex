@@ -8,6 +8,16 @@ defmodule HandyApi.Logging.Source do
     %Source{name: proto_source.name, id: proto_source.id}
   end
 
+  def get_all() do
+    Api.call(fn channel ->
+      req = Proto.Empty.new()
+      case Proto.LogSource.Stub.get_sources(channel, req) do
+        {:ok, stream} -> {:ok, Enum.map(stream, fn {:ok, entry} -> entry end)}
+        {:error, _} -> {:error}
+      end
+    end)
+  end
+
   @spec create(Source) :: {:ok, Source} | {:error}
   def create(source) do
     Api.call(fn channel ->
