@@ -42,6 +42,7 @@ defmodule HandyApi.Grpc.Client do
     {:noreply, state}
   end
   def handle_info({:gun_down, _, _, _, _, _}, state) do
+    exit("Gateway Disconnect")
     {:noreply, state}
   end
 end

@@ -6,12 +6,10 @@ defmodule HandyApiWeb.SourceController do
   action_fallback(HandyApiWeb.FallbackController)
 
   def get_sources(conn, _params) do
-    sources = ["a"]
     case Source.get_all() do
       {:ok, sources} -> render(conn, "index.json", sources: sources)
       {:error} -> render(conn, HandyApiWeb.ErrorView, :"500")
     end
-
   end
 
   def create(conn, %{"name" => name}) do

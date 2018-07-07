@@ -39,7 +39,8 @@ defmodule HandyApi.Mixfile do
       {:jason, "~> 1.0"},
       {:grpc, git: "https://github.com/tony612/grpc-elixir.git"},
       {:cowboy, "~> 2.0", override: true},
-      {:cors_plug, "~> 1.5"}
+      {:cors_plug, "~> 1.5"},
+      {:cartograf, git: "https://github.com/Herlitzd/cartograf.git"},
     ]
   end
 end

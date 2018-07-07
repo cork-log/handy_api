@@ -1,6 +1,7 @@
 defmodule HandyApiWeb.SourceView do
   use HandyApiWeb, :view
   alias HandyApiWeb.SourceView
+  alias HandyApiWeb.AuthContextView
 
   def render("index.json", %{sources: sources}) do
     render_many(sources, SourceView, "source.json")
@@ -11,6 +12,10 @@ defmodule HandyApiWeb.SourceView do
   end
 
   def render("source.json", %{source: source}) do
-    %{id: source.id, name: source.name}
+    %{
+      id: source.id,
+      name: source.name,
+      contexts: AuthContextView.render("index.json", auth_contexts: source.contexts)
+    }
   end
 end

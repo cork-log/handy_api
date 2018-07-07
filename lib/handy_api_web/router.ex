@@ -10,7 +10,15 @@ defmodule HandyApiWeb.Router do
     get "/source/:id", SourceController, :show
     get "/sources", SourceController, :get_sources
     post "/source", SourceController, :create
+
     post "/source/:source_id/entry", EntryController, :insert
     get "/source/:source_id/entry", EntryController, :get_entries
+
+    post "/source/:source_id/auth", AuthContextController, :insert
+    get "/source/:source_id/auth/:context_id/token", AuthContextController, :request_token
+    get "/source/:source_id/auth", AuthContextController, :get_contexts
+    patch "/source/:source_id/auth/:context_id/toggle", AuthContextController, :toggle_context
+
+
   end
 end
