@@ -29,8 +29,14 @@ defmodule HandyApiWeb.EntryController do
       tag: tag,
       timestamp_occurred: ts
     }
+
+    # should handle missing token
+    [auth] = conn |> get_req_header("authorization")
+    %{"token"=> token } = Regex.named_captures(~r/[B|b]earer (?<token>.+)/, auth)
+
     IO.inspect(new_entry)
-    case Entry.insert(new_entry) do
+
+    case Entry.insert(new_entry, token) do
       {:ok, entry} -> render(conn, "show.json", entry: entry)
       {:error} -> render(conn, HandyApiWeb.ErrorView, :"400")
     end

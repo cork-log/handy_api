@@ -1,6 +1,7 @@
 defmodule HandyApi.Logging.Entry do
   alias HandyApi.Api
   alias __MODULE__
+  use Cartograf
 
   defstruct id: nil,
             source_id: nil,
@@ -27,12 +28,12 @@ defmodule HandyApi.Logging.Entry do
     end)
   end
 
-  def insert(entry) do
+  def insert(entry, token) do
     IO.inspect(entry)
 
     Api.call(fn channel ->
       req = Proto.NewEntry.new(Map.from_struct(entry))
-      {:ok, entry} = Proto.LogEntry.Stub.insert(channel, req)
+      {:ok, entry} = Proto.LogEntry.Stub.insert(channel, req, metadata: %{"auth" => token})
       {:ok, from_proto(entry)}
     end)
   end
