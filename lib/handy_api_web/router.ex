@@ -19,6 +19,9 @@ defmodule HandyApiWeb.Router do
     get "/source/:source_id/auth", AuthContextController, :get_contexts
     patch "/source/:source_id/auth/:context_id/toggle", AuthContextController, :toggle_context
 
+    post "/source/:source_id/job", JobDescriptorController, :insert
+    get "/source/:source_id/job", JobDescriptorController, :get_descriptors
+    put "/source/:source_id/job/:job_descriptor_id", JobDescriptorController, :edit
 
   end
 end
